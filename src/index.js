@@ -2,11 +2,14 @@ import './sass/main.scss';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import fetchPictures from './fetchPictures';
+import NewsApiService from './fetchPictures';
 import debounce from 'lodash.debounce';
 
 
-let searchQuery = '';
+
+const newsApiService = new NewsApiService();
+console.log(newsApiService);
+
 const searchFormRef = document.querySelector('#search-form');
 const inputSearchFormRef = document.querySelector('.input-search-form');
 const btnSearchFormRef = document.querySelector('.btn-search-form');
@@ -17,15 +20,16 @@ searchFormRef.addEventListener('submit', onSearch);
 loadMoreBtnRef.addEventListener('click', onLoadMore);
 
 function onLoadMore() {
-    fetchPictures(searchQuery)
+    newsApiService.fetchPictures();
 }
 
 function onSearch(event) {
     event.preventDefault();
-    searchQuery = event.currentTarget.elements.searchQuery.value;
-    console.log(searchQuery);
+    newsApiService.query = event.currentTarget.elements.searchQuery.value;
+    newsApiService.resetPage();
+    newsApiService.fetchPictures();
 
-    fetchPictures(searchQuery);
+
     // if (searchQuery === "") {
     //     cleanInput();
     // }
