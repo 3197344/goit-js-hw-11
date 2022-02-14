@@ -48,6 +48,10 @@
   border-radius: 2px;
   background-color: #fdfdeb;
 }
+.btn-search-form:hover
+.btn-search-form:focus {
+  background-color: rgb(234, 248, 37);
+}
 
 .load-more{
   padding: 5px;
