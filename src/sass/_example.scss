@@ -26,6 +26,7 @@
 //   background-position: center;
 // }
 
+
 .search-form{
   background-color: rgb(102, 0, 116);
   padding: 15px;
@@ -98,4 +99,26 @@ button:focus {
   background-color: rgb(222, 190, 248);
   color: black;
 
+}
+
+.gallery{
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+}
+
+.photo-card{
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 15px;
+
+}
+.info-item{
+  align-items: center;
+  justify-content: center;
 }
