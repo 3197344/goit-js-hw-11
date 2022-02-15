@@ -40,5 +40,8 @@ export default class NewsApiService {
     set query(newQuery) {
         this.searchQuery = newQuery;
     }
+
+    
 };
 
+// const lightbox = new SimpleLightbox('.gallery a', { close: true });

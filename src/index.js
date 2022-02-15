@@ -50,6 +50,7 @@ function onSearch(event) {
 function appendArticlesMarkup(hits) {
     galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits));
     Notiflix.Notify.success(`Hooray! We found images.`);
+    const lightbox = new SimpleLightbox('.gallery a', { close: true });
 }
 //  ${totalHits}
 function clearGallery() {
