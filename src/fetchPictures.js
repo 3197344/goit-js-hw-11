@@ -44,4 +44,3 @@ export default class NewsApiService {
     
 };
 
-// const lightbox = new SimpleLightbox('.gallery a', { close: true });
