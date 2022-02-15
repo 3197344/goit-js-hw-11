@@ -12,7 +12,7 @@ export default class NewsApiService {
 }
     fetchPictures() {
         console.log("before", this);
-    return fetch(`https://pixabay.com/api/?key=7652668-fcb425495cfb1d754d33171ff&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${this.per_page}&page=${this.searchQuery}`)
+        return fetch(`https://pixabay.com/api/?key=7652668-fcb425495cfb1d754d33171ff&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${this.per_page}&page=${this.searchQuery}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);

@@ -118,7 +118,15 @@ button:focus {
   margin-top: 15px;
 
 }
-.info-item{
+.info{
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+.info-item{
+  margin-right: auto;
+  margin-left: auto;
+  justify-content: center;
+  text-align: center;
 }

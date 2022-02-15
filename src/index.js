@@ -27,28 +27,34 @@ function onLoadMore() {
 
 function onSearch(event) {
     event.preventDefault();
+
+    clearGallery()
     newsApiService.query = event.currentTarget.elements.searchQuery.value;
+    console.log(event.currentTarget.elements.searchQuery.value);
+// || newsApiService.query === null
+    if (newsApiService.query === "") {
+        // console.log(newsApiService.query);
+        cleanInput();
+        return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again");
+
+    }
+
     newsApiService.resetPage();
     newsApiService.fetchPictures().then(appendArticlesMarkup);
-
-
-    // if (searchQuery === "") {
-    //     cleanInput();
-    // }
-    // else {
-    //     fetchPictures(searchQuery)
-    //     .then(renderCard)
-    //     .catch(() =>
-    //     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again."))
-    //     }
 }
+
 
 function appendArticlesMarkup(hits) {
     galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits))
 }
 
-function clearGallery(hits) {
+function clearGallery() {
     galleryRef.innerHTML = '';
+}
+
+function cleanInput() {
+    inputSearchFormRef.innerHTML = '';
+    console.log("clean");
 }
 /*
 В ответе будет массив изображений удовлетворивших критериям параметров запроса. 
