@@ -16,7 +16,9 @@ const searchFormRef = document.querySelector('#search-form');
 const inputSearchFormRef = document.querySelector('.input-search-form');
 const btnSearchFormRef = document.querySelector('.btn-search-form');
 const galleryRef = document.querySelector('.gallery');
+const buttonBoxRef = document.querySelector('.button-box')
 const loadMoreBtnRef = document.querySelector('.load-more');
+buttonBoxRef.classList.add('visually-hidden');
 
 searchFormRef.addEventListener('submit', onSearch);
 loadMoreBtnRef.addEventListener('click', onLoadMore);
@@ -31,31 +33,35 @@ function onSearch(event) {
     clearGallery()
     newsApiService.query = event.currentTarget.elements.searchQuery.value;
     console.log(event.currentTarget.elements.searchQuery.value);
-// || newsApiService.query === null
+
     if (newsApiService.query === "") {
-        // console.log(newsApiService.query);
-        cleanInput();
         return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again");
-
     }
-
+    cleanInput();
     newsApiService.resetPage();
     newsApiService.fetchPictures().then(appendArticlesMarkup);
+    // const lightbox = new SimpleLightbox('.gallery a', { close: true });
+    buttonBoxRef.classList.remove('visually-hidden');
 }
 
 
 function appendArticlesMarkup(hits) {
-    galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits))
+    galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits));
+    
 }
 
 function clearGallery() {
     galleryRef.innerHTML = '';
+
 }
 
 function cleanInput() {
     inputSearchFormRef.innerHTML = '';
+    // inputSearchFormRef.textContent = '';
     console.log("clean");
+    console.log(inputSearchFormRef.innerHTML)
 }
+
 /*
 В ответе будет массив изображений удовлетворивших критериям параметров запроса. 
 Каждое изображение описывается объектом, из которого тебе интересны только следующие свойства:
