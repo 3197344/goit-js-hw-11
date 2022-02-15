@@ -37,9 +37,11 @@ function onSearch(event) {
     if (newsApiService.query === "") {
         return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again");
     }
+    
     cleanInput();
     newsApiService.resetPage();
     newsApiService.fetchPictures().then(appendArticlesMarkup);
+    
     // const lightbox = new SimpleLightbox('.gallery a', { close: true });
     buttonBoxRef.classList.remove('visually-hidden');
 }
@@ -47,9 +49,9 @@ function onSearch(event) {
 
 function appendArticlesMarkup(hits) {
     galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits));
-    
+    Notiflix.Notify.success(`Hooray! We found images.`);
 }
-
+//  ${totalHits}
 function clearGallery() {
     galleryRef.innerHTML = '';
 
