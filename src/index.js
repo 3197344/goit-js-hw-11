@@ -6,25 +6,26 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import NewsApiService from './fetchPictures';
 
-
-
-
 const newsApiService = new NewsApiService();
-console.log(newsApiService);
 
 const searchFormRef = document.querySelector('#search-form');
 const inputSearchFormRef = document.querySelector('.input-search-form');
-const btnSearchFormRef = document.querySelector('.btn-search-form');
 const galleryRef = document.querySelector('.gallery');
 const buttonBoxRef = document.querySelector('.button-box')
 const loadMoreBtnRef = document.querySelector('.load-more');
 buttonBoxRef.classList.add('visually-hidden');
 
+const container = document.getElementById('container');
+
+
+
+
 searchFormRef.addEventListener('submit', onSearch);
 loadMoreBtnRef.addEventListener('click', onLoadMore);
 
 function onLoadMore() {
-    newsApiService.fetchPictures().then(appendArticlesMarkup);
+    newsApiService.fetchPictures()
+    .then(appendArticlesMarkup);       
 }
 
 function onSearch(event) {
@@ -32,48 +33,70 @@ function onSearch(event) {
 
     clearGallery()
     newsApiService.query = event.currentTarget.elements.searchQuery.value;
-    console.log(event.currentTarget.elements.searchQuery.value);
-
-    if (newsApiService.query === "") {
+    
+    
+    if (newsApiService.query === '' || newsApiService.query === ' ' ) {
         return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again");
+        
     }
     
     cleanInput();
-    newsApiService.resetPage();
-    newsApiService.fetchPictures().then(appendArticlesMarkup);
     
-    // const lightbox = new SimpleLightbox('.gallery a', { close: true });
+    newsApiService.resetPage();
+    newsApiService.fetchPictures().then(appendArticlesMarkup)
+        // .catch(error => {
+        //     console.log(error)
+        // })
+    
     buttonBoxRef.classList.remove('visually-hidden');
+    
 }
-
 
 function appendArticlesMarkup(hits) {
-    galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits));
-    Notiflix.Notify.success(`Hooray! We found images.`);
-    const lightbox = new SimpleLightbox('.gallery a', { close: true, refresh: true});  
+    if (hits.length !== 0) {
+        galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits));
+        Notiflix.Notify.success(`Hooray! We found ${hits.length} images.`);
+    
+        if (hits.length < 39) {
+            Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+        buttonBoxRef.classList.add('visually-hidden');
+        }
+        const lightbox = new SimpleLightbox('.gallery a', { close: true });  
+        }
+    else {
+        Notiflix.Notify.info(`Hooray! We found ${hits.length} images.`);
+        buttonBoxRef.classList.add('visually-hidden');
+    }
 }
-//  ${totalHits}
+
 function clearGallery() {
     galleryRef.innerHTML = '';
-
 }
 
 function cleanInput() {
+    inputSearchFormRef.value = '';
     inputSearchFormRef.innerHTML = '';
-    // inputSearchFormRef.textContent = '';
-    console.log("clean");
-    console.log(inputSearchFormRef.innerHTML)
 }
 
-/*
-В ответе будет массив изображений удовлетворивших критериям параметров запроса. 
-Каждое изображение описывается объектом, из которого тебе интересны только следующие свойства:
 
-webformatURL - ссылка на маленькое изображение для списка карточек.
-largeImageURL - ссылка на большое изображение.
-tags - строка с описанием изображения. Подойдет для атрибута alt.
-likes - количество лайков.
-views - количество просмотров.
-comments - количество комментариев.
-downloads - количество загрузок.
-*/ 
+
+// ............Infinite Scrolling..................using......https://codepen.io/FlorinPop17/pen/RwwvKYJ
+
+
+// window.addEventListener('scroll', scrolling)
+
+function scrolling() {
+	const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+	
+	// console.log( { scrollTop, scrollHeight, clientHeight });
+    const a = clientHeight + scrollTop >= scrollHeight - 20;
+	if(a) {
+        console.log(a);
+        onLoadMoreA();
+	}
+};
+
+function onLoadMoreA() {
+    newsApiService.fetchPictures()
+    .then(appendArticlesMarkup);       
+}

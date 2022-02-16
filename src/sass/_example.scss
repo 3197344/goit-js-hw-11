@@ -91,6 +91,7 @@ button:focus {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+
 }
 .info-item{
   margin-right: auto;
@@ -98,6 +99,11 @@ button:focus {
   justify-content: center;
   text-align: center;
 }
+.info-item:hover{
+  color: rgb(128, 2, 96);
+
+}
+
 
 .visually-hidden {
   position: absolute;
@@ -115,3 +121,13 @@ button:focus {
 img{
   object-fit: cover;
 }
+
+
+// --------animation
+.container {
+	margin: 0 auto;
+	// max-width: 600px;
+}
+
+
+
